@@ -1,0 +1,9 @@
+PHPTracker 0.1
+
+PHPTracker is a library suitable to create Bittorrent files of local files,
+manage peer announcements and provoding initial seed.
+
+For examples see example_*.php.
+
+If you want to use the MySQL persistnce object, see mysql.sql for the table structure.
+Tests can be run with PHPUnit, see phpunit.xml for bootstrap configuration.
