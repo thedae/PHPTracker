@@ -55,6 +55,60 @@ abstract class PHPTracker_Threading_Forker
     }
 
     /**
+     * Detaches process from console and starts forking.
+     *
+     * Requires php-posix!
+     *
+     * @see self::start()
+     */
+    final public function startDetached()
+    {
+        // Forking one child process and closing the parent.
+        $pid = $this->fork();
+        if ( $pid > 0 )
+        {
+             // We are in the parent, so we terminate.
+            exit( 0 );
+        }
+
+        // Becoming leader of a new session/process group - detaching from shell.
+        $sid = posix_setsid();
+        if ( false === $sid )
+        {
+            throw new PHPTracker_Threading_Error( 'Unable to become session leader (detaching).' );
+        }
+
+        // We have to handle hangup signals (send when session leader terminates), otherwise it makes child process to stop.
+        pcntl_signal( SIGHUP, SIG_IGN );
+
+        // Forking again for not being session/process group leaders any more and prevent process group anomalies.
+        $pid = $this->fork();
+        if ( $pid > 0 )
+        {
+             // We are in the parent, so we terminate.
+            exit( 0 );
+        }
+
+        // Releasing current directory and closing open file descriptors (standard IO).
+        chdir( '/' );
+        fclose( STDIN );
+        fclose( STDOUT );
+
+        // PHP still thinks we are a webpage, and since we closed standard output,
+        // whenever we echo, it will assume that the client abandoned the connection,
+        // so it silently stops running.
+        // We can tell it here not to do it.
+        ignore_user_abort( true );
+
+        // Let the world know about our process ID in a standard way.
+        file_put_contents( '/var/run/phptracker', getmypid() );
+
+        // Finally we start the procedure as we would without detaching.
+        $arguments = func_get_args();
+        return call_user_func_array( array( $this, 'start' ), $arguments );
+    }
+
+    /**
      * Initializing method to call before forking. Gets params from constructor.
      *
      * @return Number of forks to create. If negative, forks are recreated when exiting and absolute values is used.
@@ -80,7 +134,7 @@ abstract class PHPTracker_Threading_Forker
     public function forkChildren( $n_children, $permanent )
     {
         if ( 0 >= $n_children ) return;
- 
+
         do
         {
             for ( $slot = 0; $slot < $n_children; ++$slot )
@@ -91,16 +145,10 @@ abstract class PHPTracker_Threading_Forker
                     continue;
                 }
 
-                $pid = pcntl_fork();
-
-                if( -1 == $pid )
-                {
-                    throw new PHPTracker_Threading_Error( 'Unable to fork.' );
-                }
+                $pid = $this->fork();
 
                 if ( $pid )
                 {
-                    echo "Forked process: $pid\n";
                     $this->children[$slot] = $pid;
                 }
                 else
@@ -124,6 +172,24 @@ abstract class PHPTracker_Threading_Forker
                 unset( $this->children[$slot] );
             }
         } while ( true );
+    }
+
+    /**
+     * Forks the currently running process.
+     *
+     * @throws PHPTracker_Threading_Error if the forking is unsuccessful.
+     * @return integer Forked process ID or 0 if you are in the child already.
+     */
+    protected function fork()
+    {
+        $pid = pcntl_fork();
+
+        if( -1 == $pid )
+        {
+            throw new PHPTracker_Threading_Error( 'Unable to fork.' );
+        }
+
+        return $pid;
     }
 }
 ?>

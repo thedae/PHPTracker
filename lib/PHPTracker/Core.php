@@ -8,7 +8,7 @@ class PHPTracker_Core
     /**
      * Configuration of this class.
      *
-     * @var PHPTracker_Config_Simple
+     * @var PHPTracker_Config_Interface
      */
     protected $config;
 
@@ -22,7 +22,7 @@ class PHPTracker_Core
     /**
      * Intializing the object with the config.
      *
-     * @param PHPTracker_Config_Interface $config 
+     * @param PHPTracker_Config_Interface $config
      */
     public function  __construct( PHPTracker_Config_Interface $config )
     {
@@ -68,7 +68,7 @@ class PHPTracker_Core
      * to the interval value to avoid possible announce peeks.
      *
      * @param PHPTracker_Config_Interface $get Config-like representation of the CGI parameters (aka. GET) sent.
-     * @return string 
+     * @return string
      */
     public function announce( PHPTracker_Config_Interface $get )
     {

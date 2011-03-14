@@ -15,7 +15,7 @@ $config = new PHPTracker_Config_Simple( array(
     // We use MySQL here. The object is initialized with its own config.
     'persistence' => new PHPTracker_Persistence_Mysql(
         new PHPTracker_Config_Simple( array(
-            'db_host'       => '192.168.1.100',
+            'db_host'       => 'localhost',
             'db_user'       => 'misc',
             'db_password'   => 'misc',
             'db_name'       => 'misc',

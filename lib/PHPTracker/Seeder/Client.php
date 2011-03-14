@@ -13,6 +13,20 @@ class PHPTracker_Seeder_Client
     public $peer_id;
 
     /**
+     * Address of the connecting client.
+     *
+     * @var string
+     */
+    public $address;
+
+    /**
+     * Port where client listens.
+     *
+     * @var integer
+     */
+    public $port;
+
+    /**
      * The torrent the the client intends to download.
      *
      * @var PHPTracker_Torrent
@@ -32,6 +46,42 @@ class PHPTracker_Seeder_Client
      * @var boolean
      */
     protected $choked = true;
+
+    /**
+     * Stat counter of bytes sent in total to the client (including protocol messages).
+     *
+     * @var boolean
+     */
+    protected $bytes_sent = 0;
+
+    /**
+     * Stat counter of bytes received in total from the client (including protocol messages).
+     *
+     * @var boolean
+     */
+    protected $bytes_received = 0;
+
+    /**
+     * Stat counter of data bytes sent in total to the client (excluding protocol messages).
+     *
+     * @var boolean
+     */
+    protected $data_sent = 0;
+
+    /**
+     * Used in self::addStatBytes $type argument.
+     */
+    const STAT_BYTES_SENT       = 1;
+
+    /**
+     * Used in self::addStatBytes $type argument.
+     */
+    const STAT_BYTES_RECEIVED   = 2;
+
+    /**
+     * Used in self::addStatBytes $type argument.
+     */
+    const STAT_DATA_SENT        = 3;
 
     /**
      * Start accepting incoming connections on the listening socket.
@@ -67,6 +117,11 @@ class PHPTracker_Seeder_Client
             $this->communication_socket = null;
             throw new PHPTracker_Seeder_Error_Socket( 'Socket accept failed: ' . socket_strerror( socket_last_error( $this->listening_socket ) ) );
         }
+        // After successfully accepting connection, we obtain IP address and port of the client for logging.
+        if ( false === socket_getpeername( $this->communication_socket, $this->address, $this->port ) )
+        {
+            $this->address = $this->port = null;
+        }
     }
 
     /**
@@ -96,6 +151,8 @@ class PHPTracker_Seeder_Client
             $message .= $buffer;
         }
 
+        $this->addStatBytes( $wanted_length, self::STAT_BYTES_RECEIVED );
+
         return $message;
     }
 
@@ -105,8 +162,9 @@ class PHPTracker_Seeder_Client
      * @param string $message
      */
     public function socketWrite( $message )
-    {    
-        socket_write( $this->communication_socket, $message, strlen( $message ) );
+    {
+        socket_write( $this->communication_socket, $message, $len = strlen( $message ) );
+        $this->addStatBytes( $len, self::STAT_BYTES_SENT );
     }
 
     /**
@@ -125,6 +183,42 @@ class PHPTracker_Seeder_Client
     {
         $this->socketWrite( pack( 'NC', 1, 0 ) );
         $this->choked = true;
+    }
+
+    /**
+     * Increments data transfer statistics for this client.
+     *
+     * @param integer $bytes Number of bytes to increment statistics with.
+     * @param integer $type Telling the type of the stat, see self::STAT_*.
+     */
+    public function addStatBytes( $bytes, $type )
+    {
+        switch ( $type )
+        {
+            case self::STAT_BYTES_SENT:
+                $this->bytes_sent += $bytes;
+                break;
+            case self::STAT_BYTES_RECEIVED:
+                $this->bytes_received += $bytes;
+                break;
+            case self::STAT_DATA_SENT:
+                $this->data_sent += $bytes;
+                break;
+        }
+    }
+
+    /**
+     * Gives string representation of transfer statistics.
+     *
+     * @return string
+     */
+    public function getStats()
+    {
+        return <<<STATS
+Bytes sent: $this->bytes_sent,
+Bytes received: $this->bytes_received,
+Data sent: $this->data_sent
+STATS;
     }
 }
 

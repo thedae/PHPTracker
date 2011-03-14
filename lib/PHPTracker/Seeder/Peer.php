@@ -31,7 +31,7 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
     /**
      * Configuration of this class.
      *
-     * @var PHPTracker_Config_Simple
+     * @var PHPTracker_Config_Interface
      */
     protected $config;
 
@@ -43,11 +43,18 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
     protected $persistence;
 
     /**
+     * Logger object used to log messages and errors in this class.
+     *
+     * @var PHPTracker_Logger_Interface
+     */
+    protected $logger;
+
+    /**
      * Open socket that accepts incoming connections. Child processes share this.
      *
      * @var resource
      */
-    protected $listening_socket;    
+    protected $listening_socket;
 
     /**
      * One and only supported protocol name.
@@ -74,9 +81,10 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
         $this->config       = $config;
 
         $this->persistence  = $this->config->get( 'persistence' );
+        $this->logger       = $this->config->get( 'logger', false, new PHPTracker_Logger_Blackhole() );
         $this->address      = $this->config->get( 'seeder_address', false, self::DEFAULT_ADDRESS );
         $this->port         = $this->config->get( 'seeder_host', false, self::DEFAULT_PORT );
-        
+
         $this->peer_id      = $this->generatePeerId();
     }
 
@@ -98,6 +106,8 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
             throw new PHPTracker_Seeder_Error( "Invalid peer fork number: $peer_forks. The minimum fork number is 1." );
         }
 
+        $this->logger->logMessage( "Seeder peer started to listen on {$this->address}:{$this->port}. Forking $peer_forks children." );
+
         return $peer_forks * -1;
     }
 
@@ -113,6 +123,9 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
         {
             $this->persistence->resetAfterForking();
         }
+
+        $this->logger->logMessage( "Forked process on slot $slot starts accepting connections." );
+
         // Waiting for incoming connections.
         $this->communicationLoop();
     }
@@ -184,7 +197,7 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
                 }
                 catch ( PHPTracker_Seeder_Error_CloseConnection $e )
                 {
-                    echo "Closing connection: " . $e->getMessage() . "\n";
+                    $this->logger->logMessage( "Closing connection with peer {$client->peer_id} with address {$client->address}:{$client->port}, reason: \"{$e->getMessage()}\". Stats: " . $client->getStats() );
                     unset( $client );
 
                     // We might wait for another client.
@@ -208,9 +221,10 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
     {
         $protocol_length = unpack( 'C', $client->socketRead( 1 ) );
         $protocol_length = current( $protocol_length );
- 
-        if ( $client->socketRead( $protocol_length ) !== self::PROTOCOL_STRING )
+
+        if ( ( $protocol = $client->socketRead( $protocol_length ) ) !== self::PROTOCOL_STRING )
         {
+            $this->logger->logError( "Client tries to connect with unsupported protocol: " . substr( $protocol, 0, 100 ) . ". Closing connection." );
             throw new PHPTracker_Seeder_Error_CloseConnection( 'Unsupported protocol.' );
         }
 
@@ -219,6 +233,9 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
 
         $info_hash          = $client->socketRead( 20 );
         $client->peer_id    = $client->socketRead( 20 );
+
+        $info_hash_readable = unpack( 'H*', $info_hash );
+        $info_hash_readable = reset( $info_hash_readable );
 
         $torrent = $this->persistence->getTorrent( $info_hash );
         if ( !isset( $torrent ) )
@@ -234,6 +251,7 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
             $stats = $this->persistence->getPeerStats( $info_hash, $this->peer_id );
             if ( $stats['complete'] >= $seeders_stop_seeding )
             {
+                $this->logger->logMessage( "External seeder limit ($seeders_stop_seeding) reached for info hash $info_hash_readable, stopping seeding." );
                 throw new PHPTracker_Seeder_Error_CloseConnection( 'Stop seeding, we have others to seed.' );
             }
         }
@@ -246,6 +264,8 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
             $info_hash .                                    // Echoing the info hash that the client requested.
             pack( 'a20', $this->peer_id )                   // Our peer id.
          );
+
+        $this->logger->logMessage( "Handshake completed with peer {$client->peer_id} with address {$client->address}:{$client->port}, info hash: $info_hash_readable." );
     }
 
     /**
@@ -262,7 +282,6 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
         if ( 0 == $message_length )
         {
             // Keep-alive.
-            echo "keep-alive\n";
             return;
         }
 
@@ -270,49 +289,48 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
         $message_type = current( $message_type );
 
         --$message_length; // The length of the payload.
-        
+
         switch ( $message_type )
         {
             case 0:
+                // Choke.
                 // We are only seeding, we can ignore this.
-                echo "choke\n";
                 break;
             case 1:
+                // Unchoke.
                 // We are only seeding, we can ignore this.
-                echo "unchoke\n";
                 break;
             case 2:
+                // Interested.
                 // We are only seeding, we can ignore this.
-                echo "interested\n";
                 break;
             case 3:
+                // Not interested.
                 // We are only seeding, we can ignore this.
-                echo "not interested\n";
                 break;
             case 4:
+                // Have.
                 // We are only seeding, we can ignore this.
-                echo "have\n";
                 $client->socketRead( $message_length );
                 break;
             case 5:
+                // Bitfield.
                 // We are only seeding, we can ignore this.
-                echo "bitfield\n";
                 $client->socketRead( $message_length );
                 break;
             case 6:
                 // Requesting one block of the file.
-                echo "request\n";
                 $payload = unpack( 'N*', $client->socketRead( $message_length ) );
                 $this->sendBlock( $client, /* Piece index */ $payload[1], /* First byte from the piece */ $payload[2], /* Length of the block */ $payload[3] );
                 break;
             case 7:
+                // Piece.
                 // We are only seeding, we can ignore this.
-                echo "piece\n";
                 $client->socketRead( $message_length );
                 break;
             case 8:
+                // Cancel.
                 // We send blocks in one step, we can ignore this.
-                echo "cancel\n";
                 $client->socketRead( $message_length );
                 break;
             default:
@@ -332,6 +350,9 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
     {
         $message = pack( 'CNN', 7, $piece_index, $block_begin ) . $client->torrent->readBlock( $piece_index, $block_begin, $length );
         $client->socketWrite( pack( 'N', strlen( $message ) ) . $message );
+
+        // Saving statistics.
+        $client->addStatBytes( $length, PHPTracker_Seeder_Client::STAT_DATA_SENT );
     }
 
     /**
@@ -363,7 +384,7 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
                 $n_pieces = 0;
             }
         }
-        
+
         $client->socketWrite( pack( 'N', strlen( $message ) ) . $message );
     }
 }

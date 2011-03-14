@@ -20,7 +20,7 @@ class PHPTracker_Bencode_BuilderTest extends PHPUnit_Framework_TestCase
         return array(
             array( 12345 ), // Integer.
             array( 'foobar' ), // String.
-            array( array( 'foo', 'bar', 'baz' ) ), // StListring.
+            array( array( 'foo', 'bar', 'baz' ) ), // List.
             array( array( 'foo' => 'bar', 'baz' => 'bat' ) ), // Dictionary.
             array( array( 'foo' => array( 'baz', 'bat' ), 'baz' => 123 ) ), // Complex.
         );

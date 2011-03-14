@@ -11,7 +11,7 @@ class PHPTracker_Seeder_Server extends PHPTracker_Threading_Forker
     /**
      * Configuration of this class.
      *
-     * @var PHPTracker_Config_Simple
+     * @var PHPTracker_Config_Interface
      */
     protected $config;
 
@@ -23,6 +23,13 @@ class PHPTracker_Seeder_Server extends PHPTracker_Threading_Forker
     protected $peer;
 
     /**
+     * Logger object used to log messages and errors in this class.
+     *
+     * @var PHPTracker_Logger_Interface
+     */
+    protected $logger;
+
+    /**
      * Interval for doing announcements to the database.
      *
      * Be careful with the timeout of DB connections!
@@ -30,7 +37,7 @@ class PHPTracker_Seeder_Server extends PHPTracker_Threading_Forker
     const ANNOUNCE_INTERVAL     = 30;
 
     /**
-     * Called before forking children, intializes the object, announces seeder and sets up listening socket.
+     * Initializes the object with the config class.
      *
      * @param PHPTracker_Config_Interface $config
      */
@@ -41,6 +48,7 @@ class PHPTracker_Seeder_Server extends PHPTracker_Threading_Forker
 
         $this->config    = $config;
         $this->peer      = $this->config->get( 'peer' );
+        $this->logger    = $this->config->get( 'logger', false, new PHPTracker_Logger_Blackhole() );
     }
 
     /**
@@ -94,12 +102,14 @@ class PHPTracker_Seeder_Server extends PHPTracker_Threading_Forker
         while ( true )
         {
             $all_torrents = $persistence->getAllInfoHash();
-            
+
             foreach ( $all_torrents as $torrent_info )
             {
                 $persistence->saveAnnounce( $torrent_info['info_hash'], $this->peer->peer_id, $this->peer->address, $this->peer->port, $torrent_info['length'], 0, 0, 'complete', self::ANNOUNCE_INTERVAL );
             }
-            
+
+            $this->logger->logMessage( 'Seeder server announced itself for ' . count( $all_torrents ) . ' torrents (announces every ' . self::ANNOUNCE_INTERVAL . 's).' );
+
             sleep( self::ANNOUNCE_INTERVAL );
         }
     }

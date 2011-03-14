@@ -1,4 +1,4 @@
-PHPTracker 0.1
+PHPTracker 0.2
 
 PHPTracker is a library suitable to create Bittorrent files of local files,
 manage peer announcements and provoding initial seed.
