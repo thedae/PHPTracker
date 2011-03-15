@@ -3,25 +3,25 @@
 <head>
   <meta charset='utf-8'>
 
-  <title>tcz/PHPTracker @ GitHub</title>
+  <title>PHPTracker</title>
 
   <style type="text/css">
     body {
       margin-top: 1.0em;
       background-color: #00aad4;
       font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
+      color: #000000;
     }
     #container {
       margin: 0 auto;
       width: 700px;
     }
-    h1 { font-size: 3.8em; color: #ff552b; margin-bottom: 3px; }
+    h1 { font-size: 3.8em; color: #ffffff; margin-bottom: 3px; }
     h1 .small { font-size: 0.4em; }
     h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #ff552b; }
-    h3 { text-align: center; color: #ff552b; }
-    a { color: #ff552b; }
+    h2 { font-size: 1.5em; color: #ffffff; }
+    h3 { text-align: center; color: #ffffff; }
+    a { color: #ffffff; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
     pre { background: #000; color: #fff; padding: 15px;}
@@ -49,26 +49,37 @@
       PHP library to generate .torrent files, set up Bittorrent tracker server, and seed server too.
     </div>
 
-    <p>Serving big files? Out of bandwith? Out of money?
+    <p>Serving big files? Out of bandwith? Out of money?</p>
+    <p>
 We have a solution. Let your users take advantage of the Bittorrent protol to download your files and relax your connection while saving money!
 PHPTracker is an all-in-one solution for you. It is capable of:
-creating standard .torrent files from any file on your server
-tracking client peers and managing peer announcements
-initially seeding your file with a peer daemon which automatically shuts down once you have enough external seeders!
+    <ul>
+        <li>creating standard .torrent files from any file on your server</li>
+        <li>tracking client peers and managing peer announcements</li>
+        <li>initially seeding your file with a peer daemon which automatically shuts down once you have enough external seeders!</li>
+    </ul>
+    </p>
+    <p>
 Why PHPTracker is different? Because it's not "just a tracker", it contains a seeder server too so the distribution of your files is automatic. This is a big step for the content providers to adapt this amazing technology and change the stereotype that "torrent = warez".
-See requirements page to see how little you need to set it up (you probably already have all).</p><h2>Dependencies</h2>
+See requirements page to see how little you need to set it up (you probably already have all).</p>
+    <h2>Dependencies</h2>
 <p>PHPTracker has the following dependencies:
-PHP 5.2 or later
-Socket extension for PHP (shipped by default with PHP)
-PECL hash extension for PHP (shipped with PHP)
-Process Control support for PHP (enabled by default)
-MySQLi extension for PHP (shipped by default with PHP, only needed when using MySQL as storage)
-MySQL database server (when using MySQL as storage)
-Linux server
-If you run your seeder server as daemon, you will need php-posix package
+    <ul>
+        <li>PHP 5.2 or later</li>
+        <li>Socket extension for PHP (shipped by default with PHP)</li>
+        <li>PECL hash extension for PHP (shipped with PHP)</li>
+        <li>Process Control support for PHP (enabled by default)</li>
+        <li>MySQLi extension for PHP (shipped by default with PHP, only needed when using MySQL as storage)</li>
+        <li>MySQL database server (when using MySQL as storage)</li>
+        <li>Linux server</li>
+        <li>If you run your seeder server as daemon, you will need php-posix package</li>
+    </ul>
+</p><p>
 To run unit tests, you need PHPUnit.</p>
 <h2>Authors</h2>
-<p>tcz (git@tcz.hu)<br/><br/>      </p>
+<p>tcz (git@tcz.hu)
+<br/>
+<br/>      </p>
 
 
     <h2>Download</h2>
