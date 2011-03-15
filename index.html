@@ -1,109 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
 
-  <title>PHPTracker</title>
-
-  <style type="text/css">
-    body {
-      background-color: #fff;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
-      margin-top: 160px;
-    }
-    #container {
-      margin: 0 auto;
-      padding: 0px;
-      width: 800px;
-      background-color: #ffffff;
-    }
-    h1 { font-size: 70px; color: #000; margin: 0px 0px 0px 135px; text-shadow: 0px 2px 1px #00aad4; font-weight: normal; position: absolute; top: 50px; }
-    h1 .small { font-size: 20px; }
-    h1 a { text-decoration: none; color: #000; }
-    h2 { font-size: 1.5em; color: #00aad4; }
-    h3 { text-align: center; color: #00aad4; }
-    a { color: #00aad4; }
-    .description { font-size: 1.2em; margin-bottom: 45px; font-style: italic; clear: both; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-
-    img#logo
-    {
-        float: left;
-        position: absolute;
-        top: 30px;
-    }
-  </style>
-</head>
-
-<body>
-  <a href="http://github.com/tcz/PHPTracker"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-    <img src="./php_tracker.png" alt="PHPTracker" title="PHPTracker" id="logo" width="120" height="120" />
-
-    <h1><a href="http://github.com/tcz/PHPTracker">PHPTracker</a>
-      <span class="small">by <a href="http://github.com/tcz">tcz</a></span></h1>
-
-    <div class="description">
-      PHP library to generate .torrent files, set up Bittorrent tracker server, and seed server too.
-    </div>
-
-    <p>Serving big files? Out of bandwith? Out of money?</p>
-    <p>
+<p>Serving big files? Out of bandwith? Out of money?</p>
+<p>
 We have a solution. Let your users take advantage of the Bittorrent protol to download your files and relax your connection while saving money!
 PHPTracker is an all-in-one solution for you. It is capable of:
-    <ul>
-        <li>creating standard .torrent files from any file on your server</li>
-        <li>tracking client peers and managing peer announcements</li>
-        <li>initially seeding your file with a peer daemon which automatically shuts down once you have enough external seeders!</li>
-    </ul>
-    </p>
-    <p>
+<ul>
+    <li>creating standard .torrent files from any file on your server</li>
+    <li>tracking client peers and managing peer announcements</li>
+    <li>initially seeding your file with a peer daemon which automatically shuts down once you have enough external seeders!</li>
+</ul>
+</p>
+<p>
 Why PHPTracker is different? Because it's not "just a tracker", it contains a seeder server too so the distribution of your files is automatic. This is a big step for the content providers to adapt this amazing technology and change the stereotype that "torrent = warez".
 See requirements page to see how little you need to set it up (you probably already have all).</p>
-    <h2>Dependencies</h2>
+<h2>Dependencies</h2>
 <p>PHPTracker has the following dependencies:
-    <ul>
-        <li>PHP 5.2 or later</li>
-        <li>Socket extension for PHP (shipped by default with PHP)</li>
-        <li>PECL hash extension for PHP (shipped with PHP)</li>
-        <li>Process Control support for PHP (enabled by default)</li>
-        <li>MySQLi extension for PHP (shipped by default with PHP, only needed when using MySQL as storage)</li>
-        <li>MySQL database server (when using MySQL as storage)</li>
-        <li>Linux server</li>
-        <li>If you run your seeder server as daemon, you will need php-posix package</li>
-    </ul>
+<ul>
+    <li>PHP 5.2 or later</li>
+    <li>Socket extension for PHP (shipped by default with PHP)</li>
+    <li>PECL hash extension for PHP (shipped with PHP)</li>
+    <li>Process Control support for PHP (enabled by default)</li>
+    <li>MySQLi extension for PHP (shipped by default with PHP, only needed when using MySQL as storage)</li>
+    <li>MySQL database server (when using MySQL as storage)</li>
+    <li>Linux server</li>
+    <li>If you run your seeder server as daemon, you will need php-posix package</li>
+</ul>
 </p><p>
 To run unit tests, you need PHPUnit.</p>
 
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/tcz/PHPTracker/zipball/master">zip</a> or
-      <a href="http://github.com/tcz/PHPTracker/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/tcz/PHPTracker</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/tcz/PHPTracker">tcz/PHPTracker</a>
-    </div>
-
-  </div>
-
-  <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-2588193-9");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-</body>
-</html>
+<h2>Download</h2>
+<p>
+  You can download this project in either
+  <a href="http://github.com/tcz/PHPTracker/zipball/master">zip</a> or
+  <a href="http://github.com/tcz/PHPTracker/tarball/master">tar</a> formats.
+</p>
+<p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+  by running:
+  <pre>$ git clone git://github.com/tcz/PHPTracker</pre>
+</p>
