@@ -1,3 +1,6 @@
+* 0.2.1
+  * basic memory leak protection for seed server
+
 * 0.2
   * added ability to start as daemon (see PHPTracker_Seeder_Server::startDetached)
   * added logging to seed server (see 'logger' config parameter, and Logger subpackage)
