@@ -37,6 +37,15 @@ class PHPTracker_Seeder_Server extends PHPTracker_Threading_Forker
     const ANNOUNCE_INTERVAL     = 30;
 
     /**
+     * To prevent possible memory leaks, every fork terminates after X iterations.
+     *
+     * The fork is automatically recreated by the parent process, so nothing changes.
+     * In our case one iterations means one announcement to the database.
+     * Peer object forks its own processes and has its own memory leaking prevention.
+     */
+    const STOP_AFTER_ITERATIONS = 20;
+
+    /**
      * Initializes the object with the config class.
      *
      * @param PHPTracker_Config_Interface $config
@@ -97,9 +106,10 @@ class PHPTracker_Seeder_Server extends PHPTracker_Threading_Forker
      */
     protected function announce()
     {
-        $persistence = $this->config->get( 'persistence' );
+        $persistence    = $this->config->get( 'persistence' );
+        $iterations     = 0;
 
-        while ( true )
+        do
         {
             $all_torrents = $persistence->getAllInfoHash();
 
@@ -111,7 +121,10 @@ class PHPTracker_Seeder_Server extends PHPTracker_Threading_Forker
             $this->logger->logMessage( 'Seeder server announced itself for ' . count( $all_torrents ) . ' torrents (announces every ' . self::ANNOUNCE_INTERVAL . 's).' );
 
             sleep( self::ANNOUNCE_INTERVAL );
-        }
+        } while ( ++$iterations < self::STOP_AFTER_ITERATIONS ); // Memory leak prevention, see self::STOP_AFTER_ITERATIONS.
+
+        $this->logger->logMessage( 'Announce process restarts to prevent memory leaks.' );
+        exit( 0 );
     }
 }
 

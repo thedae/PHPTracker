@@ -72,6 +72,14 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
     const DEFAULT_PORT          = 6881;
 
     /**
+     * To prevent possible memory leaks, every fork terminates after X iterations.
+     *
+     * The fork is automatically recreated by the parent process, so nothing changes.
+     * In our case one iterations means one client connection session.
+     */
+    const STOP_AFTER_ITERATIONS = 20;
+
+    /**
      * Setting up class from config.
      *
      * @param PHPTracker_Config_Interface $config
@@ -173,6 +181,8 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
      */
     protected function communicationLoop()
     {
+        $iterations = 0;
+
         do
         {
             $client = new PHPTracker_Seeder_Client( $this->listening_socket );
@@ -204,7 +214,10 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
                     break;
                 }
             } while ( true );
-        } while ( true );
+        } while ( ++$iterations < self::STOP_AFTER_ITERATIONS ); // Memory leak prevention, see self::STOP_AFTER_ITERATIONS.
+
+        $this->logger->logMessage( 'Seeder process fork restarts to prevent memory leaks.' );
+        exit( 0 );
     }
 
     /**
