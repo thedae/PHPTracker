@@ -13,12 +13,12 @@
     h1 { font-size: 70px; color: #000; margin: 0px 0px 0px 135px; text-shadow: 0px 2px 1px #00aad4; font-weight: normal; position: absolute; top: 50px; }
     h1 .small { font-size: 20px; }
     h1 a { text-decoration: none; color: #000; }
-    h2 { font-size: 1.5em; color: #00aad4; }
-    h3 { text-align: center; color: #00aad4; }
+    h2 { font-size: 1.5em; color: #00aad4; font-weight: normal; margin: 1.5em 0em 1em 0em }
+    h3 { color: #00aad4; font-weight: normal; }
     a { color: #00aad4; }
     .description { font-size: 14px; font-style: italic; position: absolute; top: 130px; margin: 0px 0px 0px 140px; color: #bbb; }
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
+    .footer { text-align:center; padding-top:60px; font-style: italic; }
 	p { margin: 0.5em 0px 1.2em 0px; line-height: 140% }
 
     img#logo
@@ -66,6 +66,21 @@
 		text-shadow: 0px 1px 1px #00aad4;
 	}
 	
+	div.hr
+	{
+		height: 100px;
+	}
+	div.hr div
+	{
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		background-color: #eee;
+		text-align: center;
+		height: 10px;
+		margin: 45px 0px 45px 0px;
+	}
+	
 	
 	
 /* Syntax highlighting */
@@ -108,7 +123,7 @@
 .highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
 .highlight .nn { color: #555555 } /* Name.Namespace */
 .highlight .nt { color: #000080 } /* Name.Tag */
-.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .nv { color: #00aad4 } /* Name.Variable */
 .highlight .ow { font-weight: bold } /* Operator.Word */
 .highlight .w { color: #bbbbbb } /* Text.Whitespace */
 .highlight .mf { color: #009999 } /* Literal.Number.Float */
