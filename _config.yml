@@ -1,4 +1,4 @@
 markdown: rdiscount
 pygments: true
 permalink: /:categories/:title.html
-base: http://tcz.github.com/PHPTracker
+base: http://php-tracker.org
