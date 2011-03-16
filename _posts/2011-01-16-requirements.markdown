@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Requirements
+description: PHPTracker PHP Bittorrent library requirements and dependencies.
 ---
 ## {{ page.title }} ##
 

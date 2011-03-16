@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Creating torrent files
+description: How to create .torrent files out of files on your server and provide bittorrent download to your users. Code examples, description.
 ---
 ## {{ page.title }} ##
 

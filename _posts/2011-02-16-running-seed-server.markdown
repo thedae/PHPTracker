@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Running seed server
+description: Tutorial how to run seeder server daemon with easily. Code examples, description.
 ---
 ## {{ page.title }} ##
 

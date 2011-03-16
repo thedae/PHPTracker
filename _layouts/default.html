@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='utf-8'>
-  <base href="{{ site.base }}" />
-
   <title>{{ page.title }} - PHPTracker</title>
-  <link rel="stylesheet" type="text/css" href="style.css" media="screen" /> 
+
+  <meta charset='utf-8'>
+  <meta name="robots" content="all" /> 
+  <meta name="title" content="{{ page.title }}" /> 
+  <meta name="description" content="{{ page.description }}" /> 
+  
+  <base href="{{ site.base }}" />
+  <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 </head>
 
 <body>
   <a href="http://github.com/tcz/PHPTracker"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="menu">
-  	<ul>
+  
+  <div id="container">
+	<div id="menubar">&nbsp;</div>
+	<ul id="menu">
 {% for post in site.posts %} 
-{% if [] == post.categories %}
+{% if !post.categories %}
 		<li><a title="{{ post.title }}" href="{{ post.url }}">{{ post.title }}</a></li>
 {% endif %}
 {% endfor %} 
+		<li><a title="PHPTracker issue tracker on Github" href="https://github.com/tcz/PHPTracker/issues">Issues</a></li>
 	</ul>
-  </div>
+	
   
-  <div id="container">
 	<h1><a href="{{ site.base }}">PHPTracker</a>
       <span class="small">by <a href="http://github.com/tcz">tcz</a></span></h1>
 

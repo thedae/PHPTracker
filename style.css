@@ -28,7 +28,7 @@
         top: 30px;
     }
 	
-	div#menu
+	div#menubar
 	{
 		position: absolute;
 		left: 0px;
@@ -36,24 +36,25 @@
 		right: 0px;
 		background-color: #eee;
 		text-align: center;
+		height: 40px;
 	}
 	
-	#menu ul
+	ul#menu 
 	{
+		position: absolute;
+		top: 180px;
 		margin: 0;
 		padding: 0;
 		list-style-type: none;
 		height: 40px;
-		width: 663px;
-		margin: auto;
 	}
 	
-	#menu ul li
+	ul#menu li
 	{
 		float: left;
 	}
 	
-	#menu ul a {
+	ul#menu a {
 		padding-right: 10px;
 		padding-left: 10px;
 		display: block;

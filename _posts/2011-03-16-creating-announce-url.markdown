@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Creating announce URL
+description: Learn how to set up announce (tracker) URL easily to track your peer announcements and send them peer lists. Code examples, description.
 ---
 ## {{ page.title }} ##
 
