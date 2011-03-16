@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <base href="{{ site.base }}" />
+
+  <title>{{ page.title }} - PHPTracker</title>
+  <link rel="stylesheet" type="text/css" href="style.css" media="screen" /> 
+</head>
+
+<body>
+  <a href="http://github.com/tcz/PHPTracker"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <div id="menu">
+  	<ul>
+{% for post in site.posts %} 
+{% if [] == post.categories %}
+		<li><a title="{{ post.title }}" href="{{ post.url }}">{{ post.title }}</a></li>
+{% endif %}
+{% endfor %} 
+	</ul>
+  </div>
+  
+  <div id="container">
+	<h1><a href="{{ site.base }}">PHPTracker</a>
+      <span class="small">by <a href="http://github.com/tcz">tcz</a></span></h1>
+
+    <div class="description">
+      PHP library to generate .torrent files, set up Bittorrent tracker server, and seed server too.
+    </div>
+  
+    <img src="./php_tracker.png" alt="PHPTracker" title="PHPTracker" id="logo" width="120" height="120" />
+
+    {{ content }}
+
+    <div class="footer">
+      get the source code on GitHub : <a href="http://github.com/tcz/PHPTracker">tcz/PHPTracker</a>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2588193-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>
