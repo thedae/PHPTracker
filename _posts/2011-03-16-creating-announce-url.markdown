@@ -2,15 +2,16 @@
 layout: default
 title: Creating announce URL
 description: Learn how to set up announce (tracker) URL easily to track your peer announcements and send them peer lists. Code examples, description.
+category: howto
 ---
 ## {{ page.title }} ##
 
-Once your clients downloaded the .torrent file representing your original file (see "Creating torrent files") you will have to provide them with an interface to announce that they are online and obtain the list of other peers online.  
-  
-This interface is the announce URL (or multiple announce URLs) that you encoded in your .torrent file. Clients will make regular GET requests to this URL while they are online telling your server the status of their download and asking for the list of other peers.  
-  
-With PHPTracker it is very easy to set up an announce URL. You will have to use the same database profile that you used while creating .torrent file.  
-  
+Once your clients downloaded the .torrent file representing your original file (see [Creating torrent files](/creating-torrent-files.html)) you will have to provide them with an interface to announce that they are online and obtain the list of other peers online.
+
+This interface is the announce URL (or multiple announce URLs) that you encoded in your .torrent file. Clients will make regular GET requests to this URL while they are online telling your server the status of their download and asking for the list of other peers.
+
+With PHPTracker it is very easy to set up an announce URL. You will have to use the same database profile that you used while creating .torrent file.
+
 Here is an example code:
 
 {% highlight php %}

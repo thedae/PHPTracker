@@ -20,10 +20,17 @@
   <div id="container">
 	<div id="menubar">&nbsp;</div>
 	<ul id="menu">
-{% for post in site.posts %}
-{% if !post.categories %}
-		<li><a title="{{ post.title }}" href="{{ post.url }}">{{ post.title }}</a></li>
-{% endif %}
+        <li><a title="PHPTracker Home" href="{{ site.base }}">Home</a></li>
+{% for post in site.categories.main %}
+		<li><a title="{{ post.title }}" href="{{ post.url }}" class="submenu_title">{{ post.title }}</a>
+            {% if post.parentof %}
+                <ul class="submenu">
+                {% for subpost in site.categories[post.parentof] %}
+                    <li><a title="{{ subpost.title }}" href="{{ subpost.url }}">{{ subpost.title }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
 {% endfor %}
 		<li><a title="PHPTracker issue tracker on Github" href="https://github.com/tcz/PHPTracker/issues">Issues</a></li>
 	</ul>

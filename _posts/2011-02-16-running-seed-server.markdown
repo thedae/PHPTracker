@@ -2,25 +2,26 @@
 layout: default
 title: Running seed server
 description: Tutorial how to run seeder server daemon with easily. Code examples, description.
+category: howto
 ---
 ## {{ page.title }} ##
 
-Now that you created your .torrent file and your announce URL is listening (see "Creating torren files" and "Creating announce URL") your file still can't be downloaded. Why?  
-  
-Because there is no one out there having a full copy of the file (to be seeder), so other peers cannot download it from anywhere. So what are you supposed to do? You have to be the first seeder of your file.   
-  
-So you want to save bandwidth? Don't worry, you only have to serve the file while there are no external seeders for it. PHPTracker automatically takes care of stopping seeding (and eventually restarting) when you have enough seeders out there.  
-  
-To start seeding your file, you'll have to run a seeding server daemon. PHPTracker provides you with a pure PHP, multi-process seeding server.  
-  
+Now that you created your .torrent file and your announce URL is listening (see [Creating torrent files](/creating-torrent-files.html) and [Creating announce URL](/creating-announce-url.html)) your file still can't be downloaded. Why?
+
+Because there is no one out there having a full copy of the file (to be seeder), so other peers cannot download it from anywhere. So what are you supposed to do? You have to be the first seeder of your file.
+
+So you want to save bandwidth? Don't worry, you only have to serve the file while there are no external seeders for it. PHPTracker automatically takes care of stopping seeding (and eventually restarting) when you have enough seeders out there.
+
+To start seeding your file, you'll have to run a seeding server daemon. PHPTracker provides you with a pure PHP, multi-process seeding server.
+
 Because PHPTracker uses process forking, it can only run on POSIX servers (eg. Linux). Obviously, the seeder server has to run on the same server where you have your own copy of your original files, which, of course, can be stored in a private location.
 
-When you start running your seeder server process, it will create two child process branches of itself. The first child process will listen to incoming connections and take care of serving files, and the second child process will constantly emulate announcements to your database for your client peers to know the address of your seeding server.  
-  
-The file serving process will fork itself to an arbitrary number of child processes to be able to serve multiple clients at once. The number of forks is constantly monitored and maintained in case one process fails. Be careful with adjusting the number of forked peer processes!  
-  
-Just like creating torrent files and setting up announce URL, seeding needs to have access to the cental data source.  
-  
+When you start running your seeder server process, it will create two child process branches of itself. The first child process will listen to incoming connections and take care of serving files, and the second child process will constantly emulate announcements to your database for your client peers to know the address of your seeding server.
+
+The file serving process will fork itself to an arbitrary number of child processes to be able to serve multiple clients at once. The number of forks is constantly monitored and maintained in case one process fails. Be careful with adjusting the number of forked peer processes!
+
+Just like creating torrent files and setting up announce URL, seeding needs to have access to the cental data source.
+
 Remember, that you have to use PHP command line interface to start the daemon.
 
 {% highlight bash %}

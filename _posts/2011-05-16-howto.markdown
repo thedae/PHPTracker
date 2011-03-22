@@ -1,0 +1,12 @@
+---
+layout: default
+title: How to
+description: List of how-to tutorials of PHPTracker.
+category: main
+parentof: howto
+---
+## {{ page.title }} ##
+
+{% for post in site.categories['howto'] %}
+* [{{ post.title }}]({{ post.url }} "{{ post.title }}")
+{% endfor %}

@@ -1,4 +1,4 @@
 markdown: rdiscount
 pygments: true
-permalink: /:categories/:title.html
+permalink: /:title.html
 base: http://php-tracker.org
