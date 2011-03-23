@@ -32,7 +32,7 @@ class PHPTracker_Persistence_Mysql implements PHPTracker_Persistence_Interface, 
      * Use info_hash property as unique key and overwrite attributes when saved
      * multiple times with the same info hash.
      *
-     * @param PHPTracker_Torrent $torrent 
+     * @param PHPTracker_Torrent $torrent
      */
     public function saveTorrent( PHPTracker_Torrent $torrent )
     {
@@ -71,7 +71,7 @@ SQL;
      * Must return null if the info hash is not found.
      *
      * @param string $info_hash
-     * @return PHPTracker_Torrent 
+     * @return PHPTracker_Torrent
      */
     public function getTorrent( $info_hash )
     {
@@ -149,7 +149,7 @@ ON DUPLICATE KEY UPDATE
     `status`              = COALESCE( :status, `status` ),
     `expires`             = VALUES( `expires` )
 SQL;
-        
+
         $this->query( $sql, array(
             ':info_hash'    => $info_hash,
             ':peer_id'      => $peer_id,
@@ -249,7 +249,7 @@ SQL;
             $return = array();
             foreach ( $results as $row )
             {
-                $peer = array(  
+                $peer = array(
                     'ip'        => $row['ip_address'],
                     'port'      => $row['port'],
                 );
@@ -333,11 +333,11 @@ SQL;
             }
         }
 
-        $prepared_query_string = strtr( $query_string, $parameters );
+        $prepared_query = strtr( $query_string, $parameters );
 
-        if ( false === ( $results = $this->connection->query( $prepared_query_string ) ))
+        if ( false === ( $results = $this->connection->query( $prepared_query ) ))
         {
-            throw new PHPTracker_Persistence_Error( "Error while performing mysql query.\n" . $this->connection->error . "\n" . $prepared_query_string );
+            throw new PHPTracker_Persistence_Error( "Error while performing mysql query.\n" . $this->connection->error . "\n" . $prepared_query );
         }
 
         if ( is_bool( $results ) )
@@ -374,6 +374,11 @@ SQL;
         if ( mysqli_connect_errno() )
         {
             throw new PHPTracker_Persistence_Error( 'Unable to connect to mysql database: ' . mysqli_connect_error() );
+        }
+
+        if ( false === $this->connection->select_db( $database ) )
+        {
+            throw new PHPTracker_Persistence_Error( "Unable to select database: $database.\n" . $this->connection->error );
         }
     }
 

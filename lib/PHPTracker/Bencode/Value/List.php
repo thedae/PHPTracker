@@ -21,12 +21,12 @@ class PHPTracker_Bencode_Value_List extends PHPTracker_Bencode_Value_Container
      */
     public function __toString()
     {
-        $string_representaiton = "l";
-        foreach ( $this->value as $key => $sub_value )
+        $string_represent = "l";
+        foreach ( $this->value as $sub_value )
         {
-            $string_representaiton .= $sub_value;
+            $string_represent .= $sub_value;
         }
-        return $string_representaiton . "e";
+        return $string_represent . "e";
     }
 }
 

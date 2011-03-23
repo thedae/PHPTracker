@@ -32,13 +32,13 @@ class PHPTracker_Bencode_Value_Dictionary extends PHPTracker_Bencode_Value_Conta
         // All keys must be byte strings and must appear in lexicographical order.
         ksort( $this->value );
 
-        $string_representaiton = "d";
+        $string_represent = "d";
         foreach ( $this->value as $key => $sub_value )
         {
             $key = new PHPTracker_Bencode_Value_String( $key );
-            $string_representaiton .=  $key . $sub_value;
+            $string_represent .=  $key . $sub_value;
         }
-        return $string_representaiton . "e";
+        return $string_represent . "e";
     }
 }
 
