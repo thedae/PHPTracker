@@ -21,9 +21,8 @@ See requirements page to see how little you need to set it up (you probably alre
 PHPTracker is free, released under the new (3 clause) [BSD license](/license.html "PHPTracker open-source license").
 
 ## Download ##
-You can download this project in either
-  [zip](http://github.com/tcz/PHPTracker/zipball/master) or
-  [tar](http://github.com/tcz/PHPTracker/tarball/master) formats.
+You can download PHPTracker
+  [from Github](https://github.com/tcz/PHPTracker/archives/master "Download PHPTracker packages").
 
 You can also clone the project with [Git](http://git-scm.com "Git version control system")
   by running:
