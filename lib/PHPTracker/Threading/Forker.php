@@ -157,15 +157,15 @@ abstract class PHPTracker_Threading_Forker
                 }
             }
 
-            // If we don't need to recreate child processes on exit, we can terminate in an elegant infinite loop.
-            while( !$permanent )
+            while( !$permanent && pcntl_wait( $status ) )
             {
-                sleep( 10 );
+                // If we don't need to recreate child processes on exit
+                // we just wait for them to die to aviod zombies.
             }
 
             $pid_exit = pcntl_wait( $status ); // Check the status?
 
-            echo "Process exited: $pid\n";
+            echo "Process exited: $pid_exit\n";
 
             if ( false !== ( $slot = array_search( $pid_exit, $this->children ) ) )
             {
