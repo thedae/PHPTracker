@@ -91,10 +91,11 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
     {
         $this->config       = $config;
 
-        $this->persistence  = $this->config->get( 'persistence' );
-        $this->logger       = $this->config->get( 'logger', false, new PHPTracker_Logger_Blackhole() );
-        $this->address      = $this->config->get( 'seeder_address', false, self::DEFAULT_ADDRESS );
-        $this->port         = $this->config->get( 'seeder_host', false, self::DEFAULT_PORT );
+        $this->persistence           = $this->config->get( 'persistence' );
+        $this->logger                = $this->config->get( 'logger', false, new PHPTracker_Logger_Blackhole() );
+        $this->external_address      = $this->config->get( 'seeder_address', false, self::DEFAULT_ADDRESS );
+        $this->internal_address      = $this->config->get( 'seeder_internal_address', false, $this->external_address );
+        $this->port                  = $this->config->get( 'seeder_host', false, self::DEFAULT_PORT );
 
         $this->peer_id      = $this->generatePeerId();
     }
@@ -117,7 +118,7 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
             throw new PHPTracker_Seeder_Error( "Invalid peer fork number: $peer_forks. The minimum fork number is 1." );
         }
 
-        $this->logger->logMessage( "Seeder peer started to listen on {$this->address}:{$this->port}. Forking $peer_forks children." );
+        $this->logger->logMessage( "Seeder peer started to listen on {$this->internal_address}:{$this->port}. Forking $peer_forks children." );
 
         return $peer_forks * -1;
     }
@@ -148,7 +149,7 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
      */
     protected function generatePeerId()
     {
-        return '-PT0001-' . substr( sha1( $this->address . $this->port, true ), 0, 20 );
+        return '-PT0001-' . substr( sha1( $this->external_address . $this->port, true ), 0, 20 );
     }
 
     /**
@@ -165,7 +166,7 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
 
         $this->listening_socket = $socket;
 
-        if ( false === ( $result = socket_bind( $this->listening_socket, $this->address, $this->port ) ) )
+        if ( false === ( $result = socket_bind( $this->listening_socket, $this->internal_address, $this->port ) ) )
         {
             throw new PHPTracker_Seeder_Error_Socket( 'Failed to bind socket: ' . socket_strerror( $result ) );
         }
