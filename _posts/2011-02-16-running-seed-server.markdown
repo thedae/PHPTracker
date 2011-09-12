@@ -22,6 +22,8 @@ The file serving process will fork itself to an arbitrary number of child proces
 
 Just like creating torrent files and setting up announce URL, seeding needs to have access to the cental data source.
 
+Don't forget to open firefall for the port where you will accept incoming connections. Also note, that IP address where the socket will listen and the IP that will be announces to the peers as seed can differ. See example.
+
 Remember, that you have to use PHP command line interface to start the daemon.
 
 {% highlight bash %}
@@ -56,23 +58,26 @@ $persistence = new PHPTracker_Persistence_Mysql(
 
 // Setting up seeder peer. This will listen to connections and serve files.
 $peer = new PHPTracker_Seeder_Peer(
-	new PHPTracker_Config_Simple( array(
-		'persistence'           => $persistence,
-		// PUBLIC address of the seeder server. This will be used fr announcements (ie. sent to the clients).
-		'seeder_address'        => '192.168.2.100',
-		'seeder_port'           => 6881,
-		// Number telling how many processes should be forked to listen to incoming connections.
-		'peer_forks'            => 10,
-		// If specified, gives a number of outsider seeders to make self-seeding stop.
-		// This saves you bandwidth - once your file is seeded by others, you can stop serving it.
-		// Number of seeders is permanently checked, but probably 1 is too few if you want your file to be available always.
-		'seeders_stop_seeding'  => 5,
-		// Intializing file logger with default file path (/var/log/phptracker.log).
+    new PHPTracker_Config_Simple( array(
+        'persistence'               => $persistence,
+        // PUBLIC address of the seeder server. This will be used for announcements (ie. sent to the clients).
+        'seeder_address'            => '192.168.2.123',
+        // Don't forget the firewall!
+        'seeder_port'               => 6881,
+        // Optional parameter for IP to open socket on if differs from external.
+        //'seeder_internal_address' => '192.168.2.123',
+        // Number telling how many processes should be forked to listen to incoming connections.
+        'peer_forks'                => 10,
+        // If specified, gives a number of outsider seeders to make self-seeding stop.
+        // This saves you bandwidth - once your file is seeded by others, you can stop serving it.
+        // Number of seeders is permanently checked, but probably 1 is too few if you want your file to be available always.
+        'seeders_stop_seeding'      => 5,
+        // Intializing file logger with default file path (/var/log/phptracker.log).
 		// File logger might accept config object with keys file_path_messages
 		// and file_path_errors as absolute path of log files for messages and
 		// errors respectively.
-		'logger'  => new PHPTracker_Logger_File(),
-	)
+        'logger'  => new PHPTracker_Logger_File(),
+    )
 ) );
 
 // We set up a seeding server which starts the seeding peer, and makes regular
