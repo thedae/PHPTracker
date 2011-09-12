@@ -2,6 +2,8 @@
 
 /**
  * Public interface to access some Bittorrent actions like creating torrent file and announcing peer.
+ *
+ * @package PHPTracker
  */
 class PHPTracker_Core
 {

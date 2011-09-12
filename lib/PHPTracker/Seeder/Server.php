@@ -5,6 +5,9 @@
  *
  * Creates 2 different forks from itself. The first starts the peer server
  * (creating its own forks), the second will make anounce the peer regularly.
+ *
+ * @package PHPTracker
+ * @subpackage Seeder
  */
 class PHPTracker_Seeder_Server extends PHPTracker_Threading_Forker
 {

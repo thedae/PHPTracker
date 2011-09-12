@@ -15,6 +15,9 @@ declare( ticks = 10 );
  *
  * Ideal for maintaining one listening socket and accept connections in multiple
  * processes.
+ *
+ * @package PHPTracker
+ * @subpackage Threading
  */
 abstract class PHPTracker_Threading_Forker
 {
@@ -63,7 +66,11 @@ abstract class PHPTracker_Threading_Forker
      */
     final public function startDetached()
     {
-        // Forking one child process and closing the parent.
+        // Forking one child process and closing the parent,
+        // because if the parent is already a session leader, it cannot leave it.
+        // It is because session group an dprocess group has the same ID as their
+        // leader process. Now if you assign the leader process to another
+        // session/process group, the IDs will collide.
         $pid = $this->fork();
         if ( $pid > 0 )
         {
@@ -81,7 +88,8 @@ abstract class PHPTracker_Threading_Forker
         // We have to handle hangup signals (send when session leader terminates), otherwise it makes child process to stop.
         pcntl_signal( SIGHUP, SIG_IGN );
 
-        // Forking again for not being session/process group leaders any more and prevent process group anomalies.
+        // Forking again for not being session/process group leaders will disallow the process
+        // to "accidentally" open a controlling terminal for itself (System V OSs).
         $pid = $this->fork();
         if ( $pid > 0 )
         {
@@ -164,8 +172,6 @@ abstract class PHPTracker_Threading_Forker
             }
 
             $pid_exit = pcntl_wait( $status ); // Check the status?
-
-            echo "Process exited: $pid\n";
 
             if ( false !== ( $slot = array_search( $pid_exit, $this->children ) ) )
             {

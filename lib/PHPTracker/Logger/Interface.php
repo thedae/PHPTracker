@@ -4,6 +4,9 @@
  * Interface used to log events in different classes of the library.
  *
  * Feel free to implement your own logger with PHPTracker_Logger_Interface.
+ *
+ * @package PHPTracker
+ * @subpackage Logger
  */
 interface PHPTracker_Logger_Interface
 {

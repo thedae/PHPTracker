@@ -83,7 +83,7 @@ class PHPTracker_TorrentTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( $decoded_torrent['info']['name'], $this->object->name );
         $this->assertEquals( $decoded_torrent['info']['length'], $this->object->length );
         $this->assertEquals( $decoded_torrent['info']['pieces'], $this->object->pieces );
-        
+
         $this->assertEquals( $decoded_torrent['announce'], 'http://announce' );
         $this->assertContains( array( 'http://announce' ), $decoded_torrent['announce-list'] );
     }
@@ -97,7 +97,7 @@ class PHPTracker_TorrentTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 'd', $this->object->readBlock( 1, 1, 1 ) );
         $this->assertEquals( 'ef', $this->object->readBlock( 2, 0, 2 ) );
     }
-    
+
     /**
      * @expectedException PHPTracker_Error
      */

@@ -2,12 +2,15 @@
 
 /**
  * Simple config class using a dictionary (associative array) to initialize.
+ *
+ * @package PHPTracker
+ * @subpackage Config
  */
 class PHPTracker_Config_Simple implements PHPTracker_Config_Interface
 {
     /**
      * Array containing all the config keys and their values.
-     * 
+     *
      * @var array
      */
     protected $config_values;

@@ -1,13 +1,16 @@
 <?php
 
 /**
- * Object providing operations to a physical file ont he disk.
+ * Object providing operations to a physical file on the disk.
+ *
+ * @package PHPTracker
+ * @subpackage File
  */
 class PHPTracker_File_File
 {
     /**
      * Full path of the file ont eh disk.
-     * 
+     *
      * @var string
      */
     protected $path;
@@ -151,7 +154,7 @@ class PHPTracker_File_File
                 unset( $this->read_handle );
                 throw new PHPTracker_File_Error_Unreadable( "File $this is unreadable." );
             }
-            
+
         }
         return $this->read_handle;
     }

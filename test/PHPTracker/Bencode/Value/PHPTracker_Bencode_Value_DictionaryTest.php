@@ -39,7 +39,7 @@ class PHPTracker_Bencode_Value_DictionaryTest extends PHPUnit_Framework_TestCase
     {
         $this->assertSame( array( 'b' => 12, 'a' => 'abc' ), $this->object->represent() );
     }
-    
+
     /**
      * @expectedException PHPTracker_Bencode_Error_InvalidValue
      */

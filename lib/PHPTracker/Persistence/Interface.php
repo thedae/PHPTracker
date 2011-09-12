@@ -4,6 +4,9 @@
  * Interface used to give data persistence to the system (database).
  *
  * Feel free to implement your own storage with PHPTracker_Persistence_Interface.
+ *
+ * @package PHPTracker
+ * @subpackage Persistence
  */
 interface PHPTracker_Persistence_Interface
 {

@@ -9,7 +9,7 @@ class PHPTracker_File_FileTest extends PHPUnit_Framework_TestCase
      * @var PHPTracker_File_File
      */
     protected $object;
-    
+
     protected $original_path;
 
     const TEST_DATA = 'abcdefghijklmnopqrstuvwxyz';

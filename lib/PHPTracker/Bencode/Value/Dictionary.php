@@ -2,6 +2,9 @@
 
 /**
  * Decoded bencode dictionary, consisting of key-value pairs.
+ *
+ * @package PHPTracker
+ * @subpackage Bencode
  */
 class PHPTracker_Bencode_Value_Dictionary extends PHPTracker_Bencode_Value_Container
 {

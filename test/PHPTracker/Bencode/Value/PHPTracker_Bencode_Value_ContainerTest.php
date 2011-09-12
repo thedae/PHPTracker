@@ -42,7 +42,7 @@ class PHPTracker_Bencode_Value_ContainerTest extends PHPUnit_Framework_TestCase
 
         $this->object->expects( $this->at( 0 ) )
             ->method( 'contain' )
-            ->with( 
+            ->with(
                 $this->equalTo( $test_array['key1'] ),
                 $this->isInstanceOf( 'PHPTracker_Bencode_Value_String' )
             );

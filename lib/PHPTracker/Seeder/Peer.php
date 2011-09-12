@@ -2,6 +2,9 @@
 
 /**
  * Daemon seeding all active torrent files on this server.
+ *
+ * @package PHPTracker
+ * @subpackage Seeder
  */
 class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
 {

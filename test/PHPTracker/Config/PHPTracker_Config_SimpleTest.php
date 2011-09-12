@@ -53,7 +53,7 @@ class PHPTracker_Config_SimpleTest extends PHPUnit_Framework_TestCase
     {
         $this->object->get( 'key6' );
     }
-    
+
     /**
      * @expectedException PHPTracker_Config_Error_Missing
      */
@@ -61,7 +61,7 @@ class PHPTracker_Config_SimpleTest extends PHPUnit_Framework_TestCase
     {
         $this->object->get( 'key7', true );
     }
-    
+
     /**
      * @expectedException PHPTracker_Config_Error_Missing
      */

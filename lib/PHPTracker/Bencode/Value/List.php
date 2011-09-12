@@ -2,6 +2,9 @@
 
 /**
  * Decoded bencode list, consisting of mutiple values.
+ *
+ * @package PHPTracker
+ * @subpackage Bencode
  */
 class PHPTracker_Bencode_Value_List extends PHPTracker_Bencode_Value_Container
 {

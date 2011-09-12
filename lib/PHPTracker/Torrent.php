@@ -7,6 +7,8 @@
  * imply performance-heavy calculations (accessing files, calculating hashes).
  *
  * Be aware of that when using this object!
+ *
+ * @package PHPTracker
  */
 class PHPTracker_Torrent
 {
@@ -47,7 +49,7 @@ class PHPTracker_Torrent
 
     /**
      * Full path of the physical file of this torrent.
-     * 
+     *
      * @var string
      */
     protected $file_path;
@@ -206,7 +208,7 @@ class PHPTracker_Torrent
             if ( is_array( $announce_item ) ) continue;
             $announce_item = array( $announce_item );
         }
-        
+
         $torrent_data = array(
             'info' => array(
                 'piece length'  => $this->size_piece,

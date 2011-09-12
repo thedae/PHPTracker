@@ -2,6 +2,9 @@
 
 /**
  * Logger class to serve as stupid interface of logging - no data is saved.
+ *
+ * @package PHPTracker
+ * @subpackage Logger
  */
 class PHPTracker_Logger_Blackhole implements PHPTracker_Logger_Interface
 {

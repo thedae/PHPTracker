@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Persitence class implementaiton using MySQL database server.
+ *
+ * @package PHPTracker
+ * @subpackage Persistence
+ */
 class PHPTracker_Persistence_Mysql implements PHPTracker_Persistence_Interface, PHPTracker_Persistence_ResetWhenForking
 {
     /**

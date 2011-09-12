@@ -2,6 +2,9 @@
 
 /**
  * Logger class appending messages to a file or files.
+ *
+ * @package PHPTracker
+ * @subpackage Logger
  */
 class PHPTracker_Logger_File implements PHPTracker_Logger_Interface
 {

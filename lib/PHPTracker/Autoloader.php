@@ -2,6 +2,8 @@
 
 /**
  * Lazy-loading class for teh PHPTracker library.
+ *
+ * @package PHPTracker
  */
 class PHPTracker_Autoloader
 {

@@ -2,6 +2,9 @@
 
 /**
  * Bencode parser creating Bencode value classes our of a bencoded string.
+ *
+ * @package PHPTracker
+ * @subpackage Bencode
  */
 class PHPTracker_Bencode_Parser
 {
@@ -78,7 +81,7 @@ class PHPTracker_Bencode_Parser
                     $last_container = array_pop( $this->container_stack );
                     $value = null;
                     ++$this->pointer;
-                    
+
                     break;
                 default:
                     throw new PHPTracker_Bencode_Error_Parse( "Bencode parse error at pointer {$this->pointer}. Invalid value.", $this->pointer );

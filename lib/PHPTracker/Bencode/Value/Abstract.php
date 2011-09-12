@@ -2,6 +2,9 @@
 
 /**
  * One piece of a decoded bencode value. Could be integer, string, dictionary or list.
+ *
+ * @package PHPTracker
+ * @subpackage Bencode
  */
 abstract class PHPTracker_Bencode_Value_Abstract
 {

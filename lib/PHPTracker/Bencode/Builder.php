@@ -2,6 +2,9 @@
 
 /**
  * Class creating bencoded values out of PHP values (arrays, scalars).
+ *
+ * @package PHPTracker
+ * @subpackage Bencode
  */
 class PHPTracker_Bencode_Builder
 {

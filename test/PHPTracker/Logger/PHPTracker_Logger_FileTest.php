@@ -10,7 +10,7 @@ class PHPTracker_Logger_FileTest extends PHPUnit_Framework_TestCase
      * @var PHPTracker_Logger_File
      */
     protected $object;
-    
+
     protected $log_path_messages;
     protected $log_path_errors;
 
@@ -53,7 +53,7 @@ class PHPTracker_Logger_FileTest extends PHPUnit_Framework_TestCase
     {
         $this->object->logMessage( "I'm a message with a tricky\nnew line." );
         $log_file_contents = file_get_contents( $this->log_path_messages );
-        
+
         $this->assertLogFormat( $log_file_contents );
         // Checking that message is entirely saved and new lines are escaped.
         $this->assertContains( "I'm a message with a tricky\\nnew line.", $log_file_contents );
@@ -66,13 +66,13 @@ class PHPTracker_Logger_FileTest extends PHPUnit_Framework_TestCase
     {
         $this->object->logError( "I'm a message with a tricky\nnew line." );
         $log_file_contents = file_get_contents( $this->log_path_errors );
-        
+
         $this->assertLogFormat( $log_file_contents );
         // Checking that message is entirely saved and new lines are escaped.
         $this->assertContains( "I'm a message with a tricky\\nnew line.", $log_file_contents );
         $this->assertContains( "[ERROR]", $log_file_contents );
     }
-    
+
     protected function assertLogFormat( $log_message )
     {
         // If we have a timestamp.
@@ -91,7 +91,7 @@ class PHPTracker_Logger_FileTest extends PHPUnit_Framework_TestCase
             [0-5]?\d    # Seconds.
             \]          # Closing bracket.
         /x', $log_message );
-        
+
         // Should end with new line.
         $this->assertRegexp( '/\n$/', $log_message );
     }

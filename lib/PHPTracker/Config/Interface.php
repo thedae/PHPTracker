@@ -4,6 +4,9 @@
  * Interface used to inject config values to some classes of library.
  *
  * Feel free to implement your own logic for configs or use PHPTracker_Config_Simple.
+ *
+ * @package PHPTracker
+ * @subpackage Config
  */
 interface PHPTracker_Config_Interface
 {

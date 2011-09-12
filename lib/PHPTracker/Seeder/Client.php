@@ -2,6 +2,9 @@
 
 /**
  * Objectolding information of a client connecting to the seeder server.
+ *
+ * @package PHPTracker
+ * @subpackage Seeder
  */
 class PHPTracker_Seeder_Client
 {
@@ -108,7 +111,7 @@ class PHPTracker_Seeder_Client
      * Blocks execution until incoming connection comes.
      *
      * @throws PHPTracker_Seeder_Error_Socket If the accepting is unsuccessful.
-     * @param <type> $listening_scket
+     * @param resource $listening_socket
      */
     public function socketAccept( $listening_scket )
     {

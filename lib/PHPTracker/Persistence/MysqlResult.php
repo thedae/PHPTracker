@@ -2,6 +2,9 @@
 
 /**
  * Array-like proxy used to iterate through a MySQL resultset saving some memory.
+ *
+ * @package PHPTracker
+ * @subpackage Persistence
  */
 class PHPTracker_Persistence_MysqlResult implements ArrayAccess, Iterator, Countable
 {
@@ -14,7 +17,7 @@ class PHPTracker_Persistence_MysqlResult implements ArrayAccess, Iterator, Count
 
     /**
      * Number of rows in the resultset.
-     * 
+     *
      * @var integer
      */
     protected $num_rows = 0;
@@ -29,7 +32,7 @@ class PHPTracker_Persistence_MysqlResult implements ArrayAccess, Iterator, Count
     /**
      * Initializing object with the mysqli result object.
      *
-     * @param MySQLi_Result $result 
+     * @param MySQLi_Result $result
      */
     public function __construct( MySQLi_Result $result )
     {
@@ -39,7 +42,7 @@ class PHPTracker_Persistence_MysqlResult implements ArrayAccess, Iterator, Count
 
     /**
      * ArrayAccess method, tells if an array index exists.
-     * 
+     *
      * @param integer $offset
      * @return boolean
      */
@@ -61,7 +64,7 @@ class PHPTracker_Persistence_MysqlResult implements ArrayAccess, Iterator, Count
 
     /**
      * ArrayAccess method
-     * 
+     *
      * @param <type> $offset
      * @param <type> $step
      * @return <type>
@@ -85,7 +88,7 @@ class PHPTracker_Persistence_MysqlResult implements ArrayAccess, Iterator, Count
 
     /**
      * ArrayAccess method to unset offset. Our array is read-only, so this method issues a warning.
-     * 
+     *
      * @param integer $offset
      */
     public function offsetUnset( $offset )
