@@ -95,7 +95,7 @@ class PHPTracker_Seeder_Peer extends PHPTracker_Threading_Forker
         $this->logger                = $this->config->get( 'logger', false, new PHPTracker_Logger_Blackhole() );
         $this->external_address      = $this->config->get( 'seeder_address', false, self::DEFAULT_ADDRESS );
         $this->internal_address      = $this->config->get( 'seeder_internal_address', false, $this->external_address );
-        $this->port                  = $this->config->get( 'seeder_host', false, self::DEFAULT_PORT );
+        $this->port                  = $this->config->get( 'seeder_port', false, self::DEFAULT_PORT );
 
         $this->peer_id      = $this->generatePeerId();
     }
