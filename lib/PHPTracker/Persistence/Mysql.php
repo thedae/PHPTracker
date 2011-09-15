@@ -335,7 +335,7 @@ SQL;
             }
             else
             {
-                $parameter = "'" . mysqli_real_escape_string( $this->connection, $parameter ) . "'";
+                $parameter = "'" . $this->connection->real_escape_string( $parameter ) . "'";
             }
         }
 
@@ -375,7 +375,7 @@ SQL;
             'db_name'
         ) );
 
-        $this->connection = new mysqli( $host, $user, $password, $password );
+        $this->connection = new mysqli( $host, $user, $password );
 
         if ( mysqli_connect_errno() )
         {
