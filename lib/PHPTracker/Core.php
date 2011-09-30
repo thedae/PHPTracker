@@ -40,9 +40,9 @@ class PHPTracker_Core
      * @throws PHPTracker_Error When the announce-list is empty.
      * @return string
      */
-    public function createTorrent( $file_path, $size_piece = 262144 )
+    public function createTorrent( $file_path, $size_piece = 262144, $basename = null )
     {
-        $torrent = new PHPTracker_Torrent( new PHPTracker_File_File( $file_path ), $size_piece );
+        $torrent = new PHPTracker_Torrent( new PHPTracker_File_File( $file_path ), $size_piece, $file_path, $basename );
 
         $announce = $this->config->get( 'announce' );
         if ( !is_array( $announce ) )

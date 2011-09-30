@@ -39,3 +39,6 @@ header( 'Content-Disposition: attachment; filename="test.torrent"' );
 // The first parameters is a path (can be absolute) of the file,
 // the second is the piece size in bytes.
 echo $core->createTorrent( '../test.avi', 524288 );
+
+// You can also specify basename for the file in the torrent (if different from physical):
+// echo $core->createTorrent( '../test.avi', 524288, 'puderzucker.avi' );
